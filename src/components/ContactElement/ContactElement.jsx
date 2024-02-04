@@ -1,19 +1,10 @@
 import { Contact, StyledBtn } from './ContactElement.styled';
 
-// export const ContactElement = ({ contact }) => {
-//   return (
-//     <Contact>
-//       <p>{name}: </p> <p>{number}</p>
-//       <StyledBtn onClick={() => onDelete(id)}>Delete</StyledBtn>
-//     </Contact>
-//   );
-// };
-
-export const ContactElement = ({ id, name, number, onDelete }) => {
+export const ContactElement = ({ name, number, onDelete }) => {
   return (
     <Contact>
       <p>{name}: </p> <p>{number}</p>
-      <StyledBtn onClick={() => onDelete(id)}>Delete</StyledBtn>
+      <StyledBtn onClick={onDelete}>Delete</StyledBtn>
     </Contact>
   );
 };
