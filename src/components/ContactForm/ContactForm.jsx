@@ -7,6 +7,10 @@ import {
   StyledForm,
   StyledLabel,
 } from './ContactForm.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { nanoid } from 'nanoid';
+import { Report } from 'notiflix';
+import { addContact } from '../../redux/contactsSlice';
 
 const contactSchema = Yup.object().shape({
   name: Yup.string().min(3, 'Too Short!').required('Required'),
@@ -16,23 +20,42 @@ const contactSchema = Yup.object().shape({
     .required('Required'),
 });
 
-export const ContactForm = ({ onAdd }) => {
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts);
+
+  const handleAddContact = newContact => {
+    const contact = {
+      ...newContact,
+      id: nanoid(),
+    };
+
+    const checkName = contacts.some(
+      checkContact =>
+        checkContact.name.toLocaleLowerCase() ===
+        contact.name.toLocaleLowerCase()
+    );
+
+    if (checkName) {
+      Report.failure(
+        'Notiflix Failure',
+        `Cannot add to contacts this name: ${contact.name} is already in contacts.`,
+        'Okay'
+      );
+      return;
+    }
+    dispatch(addContact(contact));
+  };
+
   return (
     <Formik
       initialValues={{
-        contacts: [
-          { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-          { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-          { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-          { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-        ],
-        filter: '',
         name: '',
         number: '',
       }}
       validationSchema={contactSchema}
-      onSubmit={(values, actions) => {
-        onAdd(values);
+      onSubmit={(newContact, actions) => {
+        handleAddContact(newContact);
         actions.resetForm();
       }}
     >
