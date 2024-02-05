@@ -1,6 +1,4 @@
-import { ContactForm } from './ContactForm/ContactForm';
-import { ContactList } from './ContactList/ContactList';
-import { Filter } from './Filter/Filter';
+import { ContactForm, Filter, ContactList } from 'components';
 
 import { GlobalStyle } from './GlobalStyle';
 import { Container, MaineTitle, Section, Title } from './App.styled';

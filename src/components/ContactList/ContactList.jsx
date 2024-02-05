@@ -1,4 +1,4 @@
-import { ContactElement } from 'components/ContactElement/ContactElement';
+import { ContactElement } from 'components';
 import { List } from './ContactList.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from '../../redux/contactsSlice';
